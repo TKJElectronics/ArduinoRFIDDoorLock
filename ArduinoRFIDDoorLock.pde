@@ -63,7 +63,11 @@ void loop() { //the main loop
 //RFID
         // We have read all bytes - we are now going to check them
         for (checkPosition = 0; checkPosition < 10; checkPosition++) { //Read bit fra 0-9
+#if defined(ARDUINO) && ARDUINO >=100
+          Serial.write(buffer[checkPosition+1]);
+#else
           Serial.print(buffer[checkPosition+1], BYTE);
+#endif
           if (buffer[checkPosition+1] == RFID_Slave1[checkPosition] && RFID_Slave1_Correct == true) {   // compares the written bits to "RFID1" 
             RFID_Slave1_Correct = true; //Slave1 RFID tag is detected
           } else {
